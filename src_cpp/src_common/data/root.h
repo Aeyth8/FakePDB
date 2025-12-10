@@ -33,29 +33,41 @@ namespace FakePDB::Data {
         nlohmann_json_j["names"] = nlohmann_json_t.names;
     }
 
-    inline void from_json(const nlohmann::json &nlohmann_json_j, Root &nlohmann_json_t) {
-        if(nlohmann_json_j.contains("general")) {
-            nlohmann_json_j.at("general").get_to(nlohmann_json_t.general);
-        }
+    inline void from_json(const nlohmann::json& nlohmann_json_j, Root& nlohmann_json_t) {
+        try {
+            if (nlohmann_json_j.contains("general")) {
+                nlohmann_json_j.at("general").get_to(nlohmann_json_t.general);
+            }
 
-        if(nlohmann_json_j.contains("pe")) {
-            nlohmann_json_j.at("pe").get_to(nlohmann_json_t.pe);
-        }
+            if (nlohmann_json_j.contains("pe")) {
+                nlohmann_json_j.at("pe").get_to(nlohmann_json_t.pe);
+            }
 
-        if(nlohmann_json_j.contains("segments")){
-            nlohmann_json_j.at("segments").get_to(nlohmann_json_t.segments);
-        }
+            if (nlohmann_json_j.contains("segments")) {
+                nlohmann_json_j.at("segments").get_to(nlohmann_json_t.segments);
+            }
 
-        if(nlohmann_json_j.contains("exports")) {
-            nlohmann_json_j.at("exports").get_to(nlohmann_json_t.exports);
-        }
+            if (nlohmann_json_j.contains("exports")) {
+                nlohmann_json_j.at("exports").get_to(nlohmann_json_t.exports);
+            }
 
-        if(nlohmann_json_j.contains("functions")) {
-            nlohmann_json_j.at("functions").get_to(nlohmann_json_t.functions);
-        }
+            if (nlohmann_json_j.contains("functions")) {
+                nlohmann_json_j.at("functions").get_to(nlohmann_json_t.functions);
+            }
 
-        if(nlohmann_json_j.contains("names")) {
-            nlohmann_json_j.at("names").get_to(nlohmann_json_t.names);
+            if (nlohmann_json_j.contains("names")) {
+                nlohmann_json_j.at("names").get_to(nlohmann_json_t.names);
+            }
+
+        } catch (const nlohmann::json::type_error& e) {
+            printf("Deserialization type error: %s\n", e.what());
+            printf("Press any key to exit ...\n");
+            getchar();
+
+        } catch (const std::exception& e) {
+            printf("Deserialization error: %s\n", e.what());
+            printf("Press any key to exit ...\n");
+            getchar();
         }
     }
 }
